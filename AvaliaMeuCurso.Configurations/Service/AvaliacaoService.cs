@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using AvaliaMeuCurso.Application.Interfaces;
-using AvaliaMeuCurso.Domain.Interfaces;
 using AvaliaMeuCurso.Models;
+using AvaliaMeuCurso.Domain.Interfaces;
+using AvaliaMeuCurso.Application.Interfaces;
 
 namespace AvaliaMeuCurso.Application.Service
 {
     public class AvaliacaoService : IAvaliacaoService
     {
-        private readonly IAvaliacaoRepository _avaliacaoRepository;
         private readonly IMapper _mapper;
+        private readonly IAvaliacaoRepository _avaliacaoRepository;
 
-        public AvaliacaoService(IAvaliacaoRepository avaliacaoRepository, IMapper mapper)
+        public AvaliacaoService(IMapper mapper, IAvaliacaoRepository avaliacaoRepository)
         {
             _mapper = mapper;
             _avaliacaoRepository = avaliacaoRepository;
@@ -25,11 +25,12 @@ namespace AvaliaMeuCurso.Application.Service
             return _mapper.Map<AvaliacaoModel>(novaAvaliacao);
         }
 
-        public async Task<bool> AtualizarAvaliacao(AvaliacaoModel avaliacaoModel)
+        public async Task<bool> AtualizarAvaliacao(AvaliacaoAtualizacaoModel avaliacaoModel, int avaliacaoId)
         {
-            var atualizouAvaliacao = await _avaliacaoRepository.AtualizarAvaliacao(_mapper.Map<Avaliacao>(avaliacaoModel));
+            await BuscarValidarAvaliacaoPorId(avaliacaoId);
+            var atualizouAvaliacao = await _avaliacaoRepository.AtualizarAvaliacao(_mapper.Map<Avaliacao>(avaliacaoModel), avaliacaoId);
             if(!atualizouAvaliacao)
-                throw new Exception($"Ocorreu um erro ao buscar avaliação com Id:{avaliacaoModel.Id}.");
+                throw new Exception($"Ocorreu um erro ao atualizar avaliação com Id:{avaliacaoId}.");
 
             return atualizouAvaliacao;
         }

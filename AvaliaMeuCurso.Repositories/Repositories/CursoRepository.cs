@@ -29,8 +29,9 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
             return curso;
         }
 
-        public async Task<bool> AtualizarCurso(Curso curso)
+        public async Task<bool> AtualizarCurso(Curso curso, int cursoId)
         {
+            curso.Id = cursoId;
             string sql = @"UPDATE Cursos SET Nome = @Nome, Descricao = @Descricao WHERE Id = @Id";
             using var db = CriarConexaoBancoDeDados;
             var cursoFoiAtualizado = await db.ExecuteAsync(sql, curso);
