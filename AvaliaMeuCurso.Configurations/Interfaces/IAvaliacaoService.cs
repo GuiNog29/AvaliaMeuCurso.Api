@@ -1,4 +1,4 @@
-﻿using AvaliaMeuCurso.Models;
+﻿using AvaliaMeuCurso.Application.Models.Avaliacao;
 
 namespace AvaliaMeuCurso.Application.Interfaces
 {

@@ -2,6 +2,7 @@
 using AvaliaMeuCurso.Models;
 using AvaliaMeuCurso.Domain.Interfaces;
 using AvaliaMeuCurso.Application.Interfaces;
+using AvaliaMeuCurso.Application.Models.Avaliacao;
 
 namespace AvaliaMeuCurso.Application.Service
 {

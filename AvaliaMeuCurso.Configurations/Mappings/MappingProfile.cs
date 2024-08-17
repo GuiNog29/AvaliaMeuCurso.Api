@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using AvaliaMeuCurso.Application.Models.Avaliacao;
+using AvaliaMeuCurso.Application.Models.Curso;
+using AvaliaMeuCurso.Application.Models.Estudante;
 using AvaliaMeuCurso.Models;
 
 namespace AvaliaMeuCurso.Application.Mappings

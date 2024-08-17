@@ -1,4 +1,4 @@
-﻿namespace AvaliaMeuCurso.Models
+﻿namespace AvaliaMeuCurso.Application.Models.Avaliacao
 {
     public class AvaliacaoModel
     {
