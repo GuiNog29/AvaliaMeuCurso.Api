@@ -1,8 +1,7 @@
 ﻿namespace AvaliaMeuCurso.Models
 {
-    public class AvaliacaoModel
+    public class AvaliacaoAtualizacaoModel
     {
-        public int Id { get; set; }
         public int Estrelas { get; set; }
         public string? Comentario { get; set; }
         public DateTime DataHora { get; set; }
