@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AvaliaMeuCurso.Application.Interfaces;
 using AvaliaMeuCurso.Application.Models.Curso;
 using AvaliaMeuCurso.Application.Models.Error;
+using AvaliaMeuCurso.Application.Interfaces.Service;
 
 namespace AvaliaMeuCurso.Presentation.Controllers
 {
@@ -115,6 +115,27 @@ namespace AvaliaMeuCurso.Presentation.Controllers
                 return StatusCode(500, new ErroModel
                 {
                     Mensagem = $"Ocorreu um erro ao tentar listar todos os cursos: erro {ex.Message}",
+                    Detalhes = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet("BuscarTodosCursosComAvaliacoes")]
+        public async Task<IActionResult> BuscarTodosCursosComAvaliacoes()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var listaCursos = await _cursoService.BuscarTodosCursosComAvaliacoes();
+                return Ok(listaCursos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ErroModel
+                {
+                    Mensagem = $"Ocorreu um erro ao tentar listar todos os cursos juntos com suas avaliações: erro {ex.Message}",
                     Detalhes = ex.StackTrace
                 });
             }

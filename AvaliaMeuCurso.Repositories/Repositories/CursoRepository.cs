@@ -55,9 +55,40 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<IEnumerable<Curso>> BuscarTodosCursos()
         {
-            string sql = @"SELECT * FROM Cursos";
+            string sql = @"SELECT c.Id, c.Nome, c.Descricao, 
+                          a.Id, a.Estrelas, a.Comentario, a.DataHora, 
+                          e.Id, e.Nome, e.Email 
+                          FROM Cursos c 
+                          LEFT JOIN Avaliacoes a ON c.Id = a.CursoId
+                          LEFT JOIN Estudantes e ON a.EstudanteId = e.Id";
+
             using var db = CriarConexaoBancoDeDados;
-            return await db.QueryAsync<Curso>(sql);
+
+            var cursoDictionary = new Dictionary<int, Curso>();
+
+            var cursos = await db.QueryAsync<Curso, Avaliacao, Estudante, Curso>(
+            sql,
+            (curso, avaliacao, estudante) =>
+            {
+                if (!cursoDictionary.TryGetValue(curso.Id, out var cursoAtual))
+                {
+                    cursoAtual = curso;
+                    cursoAtual.Avaliacoes = new List<Avaliacao>();
+                    cursoDictionary.Add(cursoAtual.Id, cursoAtual);
+                }
+
+                if (avaliacao != null)
+                {
+                    avaliacao.Estudante = estudante;
+                    cursoAtual.Avaliacoes.Add(avaliacao);
+                }
+
+                return cursoAtual;
+            },
+            splitOn: "Id,Id,Id"
+            );
+
+            return cursoDictionary.Values.Distinct().ToList();
         }
     }
 }

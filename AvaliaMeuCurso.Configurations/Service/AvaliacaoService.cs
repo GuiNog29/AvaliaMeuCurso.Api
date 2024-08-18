@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using AvaliaMeuCurso.Models;
 using AvaliaMeuCurso.Domain.Interfaces;
-using AvaliaMeuCurso.Application.Interfaces;
 using AvaliaMeuCurso.Application.Models.Avaliacao;
+using AvaliaMeuCurso.Application.Interfaces.Service;
+using AvaliaMeuCurso.Application.Interfaces.Dados;
 
 namespace AvaliaMeuCurso.Application.Service
 {
@@ -10,15 +11,23 @@ namespace AvaliaMeuCurso.Application.Service
     {
         private readonly IMapper _mapper;
         private readonly IAvaliacaoRepository _avaliacaoRepository;
+        private readonly ICursoService _cursoService;
+        private readonly IEstudanteService _estudanteService;
 
-        public AvaliacaoService(IMapper mapper, IAvaliacaoRepository avaliacaoRepository)
+        public AvaliacaoService(IMapper mapper, IAvaliacaoRepository avaliacaoRepository, 
+                                ICursoService cursoService, IEstudanteService estudanteService)
         {
             _mapper = mapper;
             _avaliacaoRepository = avaliacaoRepository;
+            _cursoService = cursoService;
+            _estudanteService = estudanteService;
         }
 
         public async Task<AvaliacaoModel> CriarNovaAvaliacao(AvaliacaoModel avaliacaoModel)
         {
+            await ValidarEstrelas(avaliacaoModel);
+            await ValidarEstudanteCursoExistem(avaliacaoModel);
+            avaliacaoModel.DataHora = DateTime.Now;
             var novaAvaliacao = await _avaliacaoRepository.CriarNovaAvaliacao(_mapper.Map<Avaliacao>(avaliacaoModel));
             if (novaAvaliacao == null)
                 throw new Exception("Ocorreu um erro ao criar uma nova avaliação.");
@@ -28,25 +37,34 @@ namespace AvaliaMeuCurso.Application.Service
 
         public async Task<bool> AtualizarAvaliacao(AvaliacaoAtualizacaoModel avaliacaoModel, int avaliacaoId)
         {
-            await BuscarValidarAvaliacaoPorId(avaliacaoId);
+            await ValidarEstrelas(avaliacaoModel);
+
+            var avaliacao = await BuscarAvaliacaoPorId(avaliacaoId);
+            avaliacaoModel.CursoId = avaliacao.CursoId;
+            avaliacaoModel.EstudanteId = avaliacao.EstudanteId;
+
             var atualizouAvaliacao = await _avaliacaoRepository.AtualizarAvaliacao(_mapper.Map<Avaliacao>(avaliacaoModel), avaliacaoId);
-            if(!atualizouAvaliacao)
-                throw new Exception($"Ocorreu um erro ao atualizar avaliação com Id:{avaliacaoId}.");
+            if (!atualizouAvaliacao)
+                throw new Exception($"Ocorreu um erro ao atualizar a avaliação com Id:{avaliacaoId}.");
 
             return atualizouAvaliacao;
         }
 
         public async Task<AvaliacaoModel> BuscarAvaliacaoPorId(int avaliacaoId)
         {
-            return _mapper.Map<AvaliacaoModel>(await BuscarValidarAvaliacaoPorId(avaliacaoId));
+            var avaliacao = await _avaliacaoRepository.BuscarAvaliacaoPorId(avaliacaoId);
+            if (avaliacao == null)
+                throw new AvaliacaoNotFoundException(avaliacaoId);
+
+            return _mapper.Map<AvaliacaoModel>(avaliacao);
         }
 
         public async Task<bool> ExcluirAvaliacao(int avaliacaoId)
         {
-            await BuscarValidarAvaliacaoPorId(avaliacaoId);
+            await BuscarAvaliacaoPorId(avaliacaoId);
             var excluiuAvaliacao = await _avaliacaoRepository.ExcluirAvaliacao(avaliacaoId);
             if (!excluiuAvaliacao)
-                throw new Exception($"Ocorreu um erro ao excluir avaliação com Id:{avaliacaoId}.");
+                throw new Exception($"Ocorreu um erro ao excluir a avaliação com Id:{avaliacaoId}.");
 
             return excluiuAvaliacao;
         }
@@ -55,18 +73,27 @@ namespace AvaliaMeuCurso.Application.Service
         {
             var listaAvaliacoes = await _avaliacaoRepository.BuscarTodasAvaliacoes();
             if (listaAvaliacoes == null || !listaAvaliacoes.Any())
-                throw new Exception($"Não tem nenhuma avaliação cadastrada.");
+                throw new Exception("Não tem nenhuma avaliação cadastrada.");
 
             return _mapper.Map<IEnumerable<AvaliacaoModel>>(listaAvaliacoes);
         }
 
-        private async Task<Avaliacao> BuscarValidarAvaliacaoPorId(int avaliacaoId)
+        private async Task ValidarEstrelas(IAvaliacaoDados avaliacaoDados)
         {
-            var avaliacao = await _avaliacaoRepository.BuscarAvaliacaoPorId(avaliacaoId);
-            if (avaliacao == null)
-                throw new Exception($"Não foi localizado a avaliação com Id:{avaliacaoId}.");
-
-            return avaliacao;
+            if (avaliacaoDados.Estrelas < 1 || avaliacaoDados.Estrelas > 5)
+                throw new Exception("As estrelas devem ser de 1 até 5.");
         }
+
+        private async Task ValidarEstudanteCursoExistem(AvaliacaoModel avaliacaoModel)
+        {
+            await _cursoService.BuscarCursoPorId(avaliacaoModel.CursoId);
+            await _estudanteService.BuscarEstudantePorId(avaliacaoModel.EstudanteId);
+        }
+    }
+
+    public class AvaliacaoNotFoundException : Exception
+    {
+        public AvaliacaoNotFoundException(int avaliacaoId)
+            : base($"Não foi localizada a avaliação com Id:{avaliacaoId}.") { }
     }
 }

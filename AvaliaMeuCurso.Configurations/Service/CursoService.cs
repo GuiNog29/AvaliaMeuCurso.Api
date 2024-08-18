@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AvaliaMeuCurso.Models;
 using AvaliaMeuCurso.Domain.Interfaces;
-using AvaliaMeuCurso.Application.Interfaces;
 using AvaliaMeuCurso.Application.Models.Curso;
+using AvaliaMeuCurso.Application.Interfaces.Service;
 
 namespace AvaliaMeuCurso.Application.Service
 {
@@ -19,54 +19,74 @@ namespace AvaliaMeuCurso.Application.Service
 
         public async Task<CursoModel> CriarNovoCurso(CursoModel cursoModel)
         {
+            ValidarDadosCurso(cursoModel.Nome);
             var novoCurso = await _cursoRepository.CriarNovoCurso(_mapper.Map<Curso>(cursoModel));
             if (novoCurso == null)
-                throw new Exception("Ocorreu um erro ao criar um novo Curso.");
+                throw new Exception("Ocorreu um erro ao criar um novo curso.");
 
             return _mapper.Map<CursoModel>(novoCurso);
         }
 
         public async Task<bool> AtualizarCurso(CursoAtualizacaoModel cursoModel, int cursoId)
         {
-            await BuscarValidarCursoPorId(cursoId);
+            await BuscarCursoPorId(cursoId); 
             var atualizouCurso = await _cursoRepository.AtualizarCurso(_mapper.Map<Curso>(cursoModel), cursoId);
             if (!atualizouCurso)
-                throw new Exception($"Ocorreu um erro ao atualizar curso com Id:{cursoId}.");
+                throw new Exception($"Ocorreu um erro ao atualizar o curso com Id:{cursoId}.");
 
             return atualizouCurso;
         }
 
         public async Task<CursoModel> BuscarCursoPorId(int cursoId)
         {
-            return _mapper.Map<CursoModel>(await BuscarValidarCursoPorId(cursoId));
+            var curso = await _cursoRepository.BuscarCursoPorId(cursoId);
+            if (curso == null)
+                throw new CursoNotFoundException(cursoId);
+
+            return _mapper.Map<CursoModel>(curso);
         }
 
         public async Task<bool> ExcluirCurso(int cursoId)
         {
-            await BuscarValidarCursoPorId(cursoId);
-            var excluiucurso = await _cursoRepository.ExcluirCurso(cursoId);
-            if (!excluiucurso)
-                throw new Exception($"Ocorreu um erro ao excluir curso com Id:{cursoId}.");
+            await BuscarCursoPorId(cursoId);
+            var excluiuCurso = await _cursoRepository.ExcluirCurso(cursoId);
+            if (!excluiuCurso)
+                throw new Exception($"Ocorreu um erro ao excluir o curso com Id:{cursoId}.");
 
-            return excluiucurso;
+            return excluiuCurso;
         }
 
         public async Task<IEnumerable<CursoModel>> BuscarTodosCursos()
         {
-            var listaCursos = await _cursoRepository.BuscarTodosCursos();
-            if (listaCursos == null || !listaCursos.Any())
-                throw new Exception($"Não tem nenhum curso cadastrado.");
-
+            var listaCursos = await BuscarValidarCursos();
             return _mapper.Map<IEnumerable<CursoModel>>(listaCursos);
         }
 
-        private async Task<Curso> BuscarValidarCursoPorId(int cursoId)
+        public async Task<IEnumerable<CursoComAvaliacoesModel>> BuscarTodosCursosComAvaliacoes()
         {
-            var curso = await _cursoRepository.BuscarCursoPorId(cursoId);
-            if (curso == null)
-                throw new Exception($"Não foi localizado o curso com Id:{cursoId}.");
-
-            return curso;
+            var listaCursos = await BuscarValidarCursos();
+            return _mapper.Map<IEnumerable<CursoComAvaliacoesModel>>(listaCursos);
         }
+
+        private void ValidarDadosCurso(string nome)
+        {
+            if (string.IsNullOrEmpty(nome))
+                throw new ArgumentNullException(nameof(nome), "Preencha o nome do curso.");
+        }
+
+        private async Task<IEnumerable<Curso>> BuscarValidarCursos()
+        {
+            var listaCursos = await _cursoRepository.BuscarTodosCursos();
+            if (listaCursos == null || !listaCursos.Any())
+                throw new Exception("Não tem nenhum curso cadastrado.");
+
+            return listaCursos;
+        }
+    }
+
+    public class CursoNotFoundException : Exception
+    {
+        public CursoNotFoundException(int cursoId)
+            : base($"Não foi localizado o curso com Id:{cursoId}.") { }
     }
 }
