@@ -58,3 +58,45 @@ Para executar o projeto:
 3. Configure a conexão com o banco de dados MySQL.
 4. Ir no arquivo **appsettings.json** e mudar a senha que foi configurada no seu banco local, e caso necessário atualizar o usuário
 5. Execute o projeto utilizando o perfil **AvaliaMeuCurso**.
+
+## Sugestões de implementações que eu solicitaria para o PO (Versões Futuras)
+
+### 1. Implementação de Testes Unitários
+   - **Descrição:** Adicionar testes unitários para todas as principais funcionalidades do sistema, garantindo que cada componente funcione conforme o esperado.
+   - **Ferramentas Sugeridas:** xUnit, NUnit ou MSTest para C#.
+   - **Benefício:** Aumenta a confiabilidade do código, facilitando a detecção de bugs e regressões.
+
+### 2. Autenticação e Autorização
+   - **Descrição:** Implementar um sistema de autenticação para garantir que apenas usuários autorizados possam acessar determinadas partes do sistema.
+   - **Ferramentas Sugeridas:** ASP.NET Core Identity, JWT (JSON Web Tokens).
+   - **Benefício:** Melhora a segurança do sistema, garantindo que apenas usuários autenticados possam acessar ou modificar dados.
+
+### 3. Paginação e Filtros para Listagens
+   - **Descrição:** Adicionar paginação e filtros às listagens de cursos, estudantes e avaliações, para melhorar a performance e a usabilidade do sistema.
+   - **Ferramentas Sugeridas:** Implementação manual ou uso de bibliotecas específicas para paginação.
+   - **Benefício:** Otimiza a performance do sistema, especialmente com grandes volumes de dados, e melhora a experiência do usuário.
+
+### 4. Cache para Consultas Frequentes
+   - **Descrição:** Implementar cache para consultas frequentes, como a listagem de cursos e avaliações, para melhorar a performance.
+   - **Ferramentas Sugeridas:** Redis, MemoryCache.
+   - **Benefício:** Reduz a carga no banco de dados e melhora o tempo de resposta para o usuário final.
+
+### 5. Implementação de Logs e Monitoramento
+   - **Descrição:** Adicionar logs para monitoramento de atividades e erros no sistema, com alertas em tempo real.
+   - **Ferramentas Sugeridas:** Serilog, ELK Stack (Elasticsearch, Logstash, Kibana), Application Insights.
+   - **Benefício:** Facilita a detecção e resolução de problemas em tempo real, melhorando a estabilidade e a manutenção do sistema.
+
+### 6. Internacionalização (i18n)
+   - **Descrição:** Adicionar suporte a múltiplos idiomas para permitir que o sistema seja utilizado em diferentes regiões.
+   - **Ferramentas Sugeridas:** Recursos de internacionalização do ASP.NET Core.
+   - **Benefício:** Expande o alcance do sistema para usuários que falam diferentes idiomas.
+
+### 7. Interface Responsiva e Melhorias na UI/UX
+   - **Descrição:** Melhorar a interface do usuário para torná-la mais intuitiva e responsiva em dispositivos móveis.
+   - **Ferramentas Sugeridas:** Bootstrap, Tailwind CSS, ou desenvolvimento customizado com CSS.
+   - **Benefício:** Melhora a experiência do usuário e torna o sistema acessível em uma maior variedade de dispositivos.
+
+### 8. Migração para uma Arquitetura de Microsserviços
+   - **Descrição:** Reestruturar o sistema para utilizar uma arquitetura de microsserviços, separando diferentes partes do sistema em serviços independentes.
+   - **Ferramentas Sugeridas:** Docker, Kubernetes, Azure Service Fabric.
+   - **Benefício:** Facilita a escalabilidade, manutenção e desenvolvimento independente de diferentes partes do sistema.
