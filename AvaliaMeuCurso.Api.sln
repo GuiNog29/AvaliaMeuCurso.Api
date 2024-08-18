@@ -5,15 +5,15 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Api", "AvaliaMeuCurso.Api\AvaliaMeuCurso.Api.csproj", "{6F15D123-3DD8-4535-8420-9A4CEFD253D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Configurations", "AvaliaMeuCurso.Configurations\AvaliaMeuCurso.Configurations.csproj", "{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Application", "AvaliaMeuCurso.Configurations\AvaliaMeuCurso.Application.csproj", "{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.DTOs", "AvaliaMeuCurso.DTOs\AvaliaMeuCurso.DTOs.csproj", "{F26D92F4-5FBC-483C-8AAC-83EFB41BDFC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Domain", "AvaliaMeuCurso.Models\AvaliaMeuCurso.Domain.csproj", "{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Models", "AvaliaMeuCurso.Models\AvaliaMeuCurso.Models.csproj", "{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Infrastructure", "AvaliaMeuCurso.Repositories\AvaliaMeuCurso.Infrastructure.csproj", "{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Repositories", "AvaliaMeuCurso.Repositories\AvaliaMeuCurso.Repositories.csproj", "{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Presentation", "AvaliaMeuCurso.Services\AvaliaMeuCurso.Presentation.csproj", "{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Services", "AvaliaMeuCurso.Services\AvaliaMeuCurso.Services.csproj", "{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaliaMeuCurso.Tests", "AvaliaMeuCurso.Tests\AvaliaMeuCurso.Tests.csproj", "{C08DEED0-266B-4082-850E-388E9680A80A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F26D92F4-5FBC-483C-8AAC-83EFB41BDFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F26D92F4-5FBC-483C-8AAC-83EFB41BDFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F26D92F4-5FBC-483C-8AAC-83EFB41BDFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F26D92F4-5FBC-483C-8AAC-83EFB41BDFC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C08DEED0-266B-4082-850E-388E9680A80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08DEED0-266B-4082-850E-388E9680A80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08DEED0-266B-4082-850E-388E9680A80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08DEED0-266B-4082-850E-388E9680A80A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

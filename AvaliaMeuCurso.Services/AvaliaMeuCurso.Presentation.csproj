@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,9 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AvaliaMeuCurso.Configurations\AvaliaMeuCurso.Application.csproj" />
-    <ProjectReference Include="..\AvaliaMeuCurso.Models\AvaliaMeuCurso.Domain.csproj" />
-    <ProjectReference Include="..\AvaliaMeuCurso.Repositories\AvaliaMeuCurso.Infrastructure.csproj" />
-    <ProjectReference Include="..\AvaliaMeuCurso.Services\AvaliaMeuCurso.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
