@@ -1,13 +1,12 @@
 ﻿using AvaliaMeuCurso.Application.Models.Avaliacao;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace AvaliaMeuCurso.Application.Models.Curso
 {
-    public class CursoModel
+    public class CursoComAvaliacoesModel
     {
-        [SwaggerSchema(ReadOnly = true)]
-        public int Id { get; set; }
+        public required int Id { get; set; }
         public required string Nome { get; set; }
         public string? Descricao { get; set; }
+        public ICollection<AvaliacaoDetalhesModel>? Avaliacoes { get; set; }
     }
 }

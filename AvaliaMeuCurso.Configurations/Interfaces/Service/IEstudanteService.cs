@@ -1,6 +1,6 @@
 ﻿using AvaliaMeuCurso.Application.Models.Estudante;
 
-namespace AvaliaMeuCurso.Application.Interfaces
+namespace AvaliaMeuCurso.Application.Interfaces.Service
 {
     public interface IEstudanteService
     {

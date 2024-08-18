@@ -1,7 +1,11 @@
-﻿namespace AvaliaMeuCurso.Application.Models.Avaliacao
+﻿using AvaliaMeuCurso.Application.Interfaces.Dados;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace AvaliaMeuCurso.Application.Models.Avaliacao
 {
-    public class AvaliacaoModel
+    public class AvaliacaoModel : IAvaliacaoDados
     {
+        [SwaggerSchema(ReadOnly = true)]
         public int Id { get; set; }
         public int Estrelas { get; set; }
         public string? Comentario { get; set; }

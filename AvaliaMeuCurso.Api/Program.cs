@@ -1,8 +1,8 @@
 using AvaliaMeuCurso.Domain.Interfaces;
 using AvaliaMeuCurso.Application.Service;
 using AvaliaMeuCurso.Application.Mappings;
-using AvaliaMeuCurso.Application.Interfaces;
 using AvaliaMeuCurso.Infrastructure.Repositories;
+using AvaliaMeuCurso.Application.Interfaces.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

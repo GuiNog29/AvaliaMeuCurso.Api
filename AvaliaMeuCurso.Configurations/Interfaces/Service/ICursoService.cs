@@ -1,6 +1,6 @@
 ﻿using AvaliaMeuCurso.Application.Models.Curso;
 
-namespace AvaliaMeuCurso.Application.Interfaces
+namespace AvaliaMeuCurso.Application.Interfaces.Service
 {
     public interface ICursoService
     {
@@ -9,5 +9,6 @@ namespace AvaliaMeuCurso.Application.Interfaces
         Task<CursoModel> BuscarCursoPorId(int cursoId);
         Task<bool> ExcluirCurso(int cursoId);
         Task<IEnumerable<CursoModel>> BuscarTodosCursos();
+        Task<IEnumerable<CursoComAvaliacoesModel>> BuscarTodosCursosComAvaliacoes();
     }
 }

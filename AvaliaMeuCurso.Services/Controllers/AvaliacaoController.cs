@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AvaliaMeuCurso.Application.Interfaces;
 using AvaliaMeuCurso.Application.Models.Error;
 using AvaliaMeuCurso.Application.Models.Avaliacao;
+using AvaliaMeuCurso.Application.Interfaces.Service;
 
 namespace AvaliaMeuCurso.Presentation.Controllers
 {
