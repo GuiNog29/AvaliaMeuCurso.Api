@@ -2,8 +2,8 @@
 using AvaliaMeuCurso.Models;
 using AvaliaMeuCurso.Domain.Interfaces;
 using AvaliaMeuCurso.Application.Models.Avaliacao;
-using AvaliaMeuCurso.Application.Interfaces.Service;
 using AvaliaMeuCurso.Application.Interfaces.Dados;
+using AvaliaMeuCurso.Application.Interfaces.Service;
 
 namespace AvaliaMeuCurso.Application.Service
 {
@@ -14,7 +14,7 @@ namespace AvaliaMeuCurso.Application.Service
         private readonly ICursoService _cursoService;
         private readonly IEstudanteService _estudanteService;
 
-        public AvaliacaoService(IMapper mapper, IAvaliacaoRepository avaliacaoRepository, 
+        public AvaliacaoService(IMapper mapper, IAvaliacaoRepository avaliacaoRepository,
                                 ICursoService cursoService, IEstudanteService estudanteService)
         {
             _mapper = mapper;
@@ -25,12 +25,12 @@ namespace AvaliaMeuCurso.Application.Service
 
         public async Task<AvaliacaoModel> CriarNovaAvaliacao(AvaliacaoModel avaliacaoModel)
         {
-            await ValidarEstrelas(avaliacaoModel);
-            await ValidarEstudanteCursoExistem(avaliacaoModel);
+            await ValidarDadosAvaliacao(avaliacaoModel);
+
             avaliacaoModel.DataHora = DateTime.Now;
             var novaAvaliacao = await _avaliacaoRepository.CriarNovaAvaliacao(_mapper.Map<Avaliacao>(avaliacaoModel));
             if (novaAvaliacao == null)
-                throw new Exception("Ocorreu um erro ao criar uma nova avaliação.");
+                throw new AvaliacaoServiceException("Ocorreu um erro ao criar uma nova avaliação.");
 
             return _mapper.Map<AvaliacaoModel>(novaAvaliacao);
         }
@@ -40,12 +40,13 @@ namespace AvaliaMeuCurso.Application.Service
             await ValidarEstrelas(avaliacaoModel);
 
             var avaliacao = await BuscarAvaliacaoPorId(avaliacaoId);
+            avaliacaoModel.DataHora = DateTime.Now;
             avaliacaoModel.CursoId = avaliacao.CursoId;
             avaliacaoModel.EstudanteId = avaliacao.EstudanteId;
 
             var atualizouAvaliacao = await _avaliacaoRepository.AtualizarAvaliacao(_mapper.Map<Avaliacao>(avaliacaoModel), avaliacaoId);
             if (!atualizouAvaliacao)
-                throw new Exception($"Ocorreu um erro ao atualizar a avaliação com Id:{avaliacaoId}.");
+                throw new AvaliacaoServiceException($"Ocorreu um erro ao atualizar a avaliação com Id:{avaliacaoId}.");
 
             return atualizouAvaliacao;
         }
@@ -64,7 +65,7 @@ namespace AvaliaMeuCurso.Application.Service
             await BuscarAvaliacaoPorId(avaliacaoId);
             var excluiuAvaliacao = await _avaliacaoRepository.ExcluirAvaliacao(avaliacaoId);
             if (!excluiuAvaliacao)
-                throw new Exception($"Ocorreu um erro ao excluir a avaliação com Id:{avaliacaoId}.");
+                throw new AvaliacaoServiceException($"Ocorreu um erro ao excluir a avaliação com Id:{avaliacaoId}.");
 
             return excluiuAvaliacao;
         }
@@ -73,15 +74,21 @@ namespace AvaliaMeuCurso.Application.Service
         {
             var listaAvaliacoes = await _avaliacaoRepository.BuscarTodasAvaliacoes();
             if (listaAvaliacoes == null || !listaAvaliacoes.Any())
-                throw new Exception("Não tem nenhuma avaliação cadastrada.");
+                throw new AvaliacaoServiceException("Não tem nenhuma avaliação cadastrada.");
 
             return _mapper.Map<IEnumerable<AvaliacaoModel>>(listaAvaliacoes);
+        }
+
+        private async Task ValidarDadosAvaliacao(AvaliacaoModel avaliacaoModel)
+        {
+            await ValidarEstrelas(avaliacaoModel);
+            await ValidarEstudanteCursoExistem(avaliacaoModel);
         }
 
         private async Task ValidarEstrelas(IAvaliacaoDados avaliacaoDados)
         {
             if (avaliacaoDados.Estrelas < 1 || avaliacaoDados.Estrelas > 5)
-                throw new Exception("As estrelas devem ser de 1 até 5.");
+                throw new AvaliacaoServiceException("As estrelas devem ser de 1 até 5.");
         }
 
         private async Task ValidarEstudanteCursoExistem(AvaliacaoModel avaliacaoModel)
@@ -95,5 +102,11 @@ namespace AvaliaMeuCurso.Application.Service
     {
         public AvaliacaoNotFoundException(int avaliacaoId)
             : base($"Não foi localizada a avaliação com Id:{avaliacaoId}.") { }
+    }
+
+    public class AvaliacaoServiceException : Exception
+    {
+        public AvaliacaoServiceException(string message)
+            : base(message) { }
     }
 }
