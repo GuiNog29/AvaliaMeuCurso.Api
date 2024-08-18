@@ -56,5 +56,5 @@ Para executar o projeto:
 1. Baixe o repositório em sua máquina local.
 2. Abra o projeto no seu ambiente de desenvolvimento preferido.
 3. Configure a conexão com o banco de dados MySQL.
-4. Ir no arquivo **appsettings.json** e mudar a senha que foi configurada no seu banco local, e caso necenssário atualizar o usuário
+4. Ir no arquivo **appsettings.json** e mudar a senha que foi configurada no seu banco local, e caso necessário atualizar o usuário
 5. Execute o projeto utilizando o perfil **AvaliaMeuCurso**.
