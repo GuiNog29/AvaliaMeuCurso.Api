@@ -12,11 +12,18 @@ namespace AvaliaMeuCurso.Application.Mappings
         {
             CreateMap<Curso, CursoModel>().ReverseMap();
             CreateMap<Curso, CursoAtualizacaoModel>().ReverseMap();
+            CreateMap<Curso, CursoComAvaliacoesModel>()
+                .ForMember(x => x.Avaliacoes, opt => opt.MapFrom(src => src.Avaliacoes));
 
             CreateMap<Estudante, EstudanteModel>().ReverseMap();
             CreateMap<Estudante, EstudanteAtualizacaoModel>().ReverseMap();
 
             CreateMap<Avaliacao, AvaliacaoModel>().ReverseMap();
+            CreateMap<Avaliacao, AvaliacaoDetalhesModel>()
+                .ForMember(x => x.NomeEstudante, opt => opt.MapFrom(src => src.Estudante.Nome))
+                .ForMember(x => x.EstudanteId, opt => opt.MapFrom(src => src.Estudante.Id))
+                .ForMember(dest => dest.CursoId, opt => opt.MapFrom(src => src.CursoId)) 
+                .ForMember(x => x.DataHora, opt => opt.MapFrom(src => src.DataHora.ToString("dd/MM/yyyy HH:mm")));
             CreateMap<Avaliacao, AvaliacaoAtualizacaoModel>().ReverseMap();
         }
     }
