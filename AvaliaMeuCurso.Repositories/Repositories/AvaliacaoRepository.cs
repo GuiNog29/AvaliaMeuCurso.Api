@@ -40,7 +40,7 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<Avaliacao> BuscarAvaliacaoPorId(int avaliacaoId)
         {
-            string sql = @"SELECT * FROM Avaliacoes WHERE Id = @Id";
+            string sql = @"SELECT * FROM Avaliacoes A WHERE A.Id = @Id";
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryFirstOrDefaultAsync<Avaliacao>(sql, new { Id = avaliacaoId });
         }
@@ -55,7 +55,7 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<IEnumerable<Avaliacao>> BuscarTodasAvaliacoes()
         {
-            string sql = @"SELECT * FROM Avaliacoes";
+            string sql = @"SELECT * FROM Avaliacoes A ORDER BY A.Id DESC";
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryAsync<Avaliacao>(sql);
         }

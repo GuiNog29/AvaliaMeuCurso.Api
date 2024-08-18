@@ -40,7 +40,7 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<Estudante> BuscarEstudantePorId(int estudanteId)
         {
-            string sql = @"SELECT * FROM Estudantes WHERE Id = @Id";
+            string sql = @"SELECT * FROM Estudantes E WHERE E.Id = @Id";
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryFirstOrDefaultAsync<Estudante>(sql, new { Id = estudanteId });
         }
@@ -55,7 +55,7 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<IEnumerable<Estudante>> BuscarTodosEstudantes()
         {
-            string sql = @"SELECT * FROM Estudantes";
+            string sql = @"SELECT * FROM Estudantes E ORDER BY E.Nome";
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryAsync<Estudante>(sql);
         }

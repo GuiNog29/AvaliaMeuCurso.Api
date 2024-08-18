@@ -40,7 +40,7 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<Curso> BuscarCursoPorId(int cursoId)
         {
-            string sql = @"SELECT * FROM Cursos WHERE Id = @Id";
+            string sql = @"SELECT * FROM Cursos C WHERE C.Id = @Id ORDER BY C.Nome";
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryFirstOrDefaultAsync<Curso>(sql, new { Id = cursoId });
         }
@@ -55,12 +55,13 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<IEnumerable<Curso>> BuscarTodosCursos()
         {
-            string sql = @"SELECT c.Id, c.Nome, c.Descricao, 
-                          a.Id, a.Estrelas, a.Comentario, a.DataHora, 
-                          e.Id, e.Nome, e.Email 
-                          FROM Cursos c 
-                          LEFT JOIN Avaliacoes a ON c.Id = a.CursoId
-                          LEFT JOIN Estudantes e ON a.EstudanteId = e.Id";
+            string sql = @"SELECT C.Id, C.Nome, C.Descricao, 
+                          A.Id, A.Estrelas, A.Comentario, A.DataHora, 
+                          E.Id, E.Nome, E.Email 
+                          FROM Cursos C 
+                          LEFT JOIN Avaliacoes A ON C.Id = A.CursoId
+                          LEFT JOIN Estudantes E ON A.EstudanteId = E.Id
+                          ORDER BY C.Nome";
 
             using var db = CriarConexaoBancoDeDados;
 
@@ -80,6 +81,7 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
                 if (avaliacao != null)
                 {
                     avaliacao.Estudante = estudante;
+                    avaliacao.Curso = curso;
                     cursoAtual.Avaliacoes.Add(avaliacao);
                 }
 
