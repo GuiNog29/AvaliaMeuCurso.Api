@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AvaliaMeuCurso.Application.Models.Error;
+using AvaliaMeuCurso.Application.Helpers;
 using AvaliaMeuCurso.Application.Models.Avaliacao;
 using AvaliaMeuCurso.Application.Interfaces.Service;
 
@@ -10,14 +10,16 @@ namespace AvaliaMeuCurso.Presentation.Controllers
     public class AvaliacaoController : ControllerBase
     {
         private readonly IAvaliacaoService _avaliacaoService;
+        private readonly IValidadorErro _validadorErro;
 
-        public AvaliacaoController(IAvaliacaoService avaliacaoService)
+        public AvaliacaoController(IAvaliacaoService avaliacaoService, IValidadorErro validadorErro)
         {
             _avaliacaoService = avaliacaoService;
+            _validadorErro = validadorErro;
         }
 
         [HttpPost("CriarNovaAvaliacao")]
-        public async Task<IActionResult> CriarNovaAvaliacao(AvaliacaoModel avaliacaoModel)
+        public async Task<ActionResult<AvaliacaoModel>> CriarNovaAvaliacao(AvaliacaoModel avaliacaoModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -29,11 +31,7 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar cadastrar avaliação: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("cadastrar avaliação", ex);
             }
         }
 
@@ -50,20 +48,13 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar atualizar avaliação: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("atualizar avaliação", ex);
             }
         }
 
         [HttpGet("BuscarAvaliacaoPorId/{avaliacaoId}")]
-        public async Task<IActionResult> BuscarAvaliacaoPorId(int avaliacaoId)
+        public async Task<ActionResult<AvaliacaoModel>> BuscarAvaliacaoPorId(int avaliacaoId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var avaliacao = await _avaliacaoService.BuscarAvaliacaoPorId(avaliacaoId);
@@ -71,40 +62,27 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar buscar avaliação por Id: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("buscar avaliação por Id", ex);
             }
         }
 
         [HttpDelete("ExcluirAvaliacao/{avaliacaoId}")]
         public async Task<IActionResult> ExcluirAvaliacao(int avaliacaoId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
-                return Ok(await _avaliacaoService.ExcluirAvaliacao(avaliacaoId));
+                var excluiu = await _avaliacaoService.ExcluirAvaliacao(avaliacaoId);
+                return Ok(excluiu);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar excluir avaliação: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("excluir avaliação", ex);
             }
         }
 
         [HttpGet("BuscarTodasAvaliacoes")]
-        public async Task<IActionResult> BuscarTodasAvaliacoes()
+        public async Task<ActionResult<IEnumerable<AvaliacaoModel>>> BuscarTodasAvaliacoes()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var listaAvaliacoes = await _avaliacaoService.BuscarTodasAvaliacoes();
@@ -112,11 +90,7 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar listar todas avaliações: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("listar todas avaliações", ex);
             }
         }
     }

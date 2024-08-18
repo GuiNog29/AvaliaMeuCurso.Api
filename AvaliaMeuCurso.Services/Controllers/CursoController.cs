@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using AvaliaMeuCurso.Application.Helpers;
 using AvaliaMeuCurso.Application.Models.Curso;
-using AvaliaMeuCurso.Application.Models.Error;
 using AvaliaMeuCurso.Application.Interfaces.Service;
 
 namespace AvaliaMeuCurso.Presentation.Controllers
@@ -10,14 +10,16 @@ namespace AvaliaMeuCurso.Presentation.Controllers
     public class CursoController : ControllerBase
     {
         private readonly ICursoService _cursoService;
+        private readonly IValidadorErro _validadorErro;
 
-        public CursoController(ICursoService cursoService)
+        public CursoController(ICursoService cursoService, IValidadorErro validadorErro)
         {
             _cursoService = cursoService;
+            _validadorErro = validadorErro;
         }
 
         [HttpPost("CriarNovoCurso")]
-        public async Task<IActionResult> CriarNovoCurso(CursoModel cursoModel)
+        public async Task<ActionResult<CursoModel>> CriarNovoCurso(CursoModel cursoModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -29,11 +31,7 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar cadastrar curso: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("cadastrar curso", ex);
             }
         }
 
@@ -50,61 +48,44 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar atualizar curso: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("atualizar curso", ex);
             }
         }
 
         [HttpGet("BuscarCursoPorId/{cursoId}")]
-        public async Task<IActionResult> BuscarCursoPorId(int cursoId)
+        public async Task<ActionResult<CursoModel>> BuscarCursoPorId(int cursoId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var curso = await _cursoService.BuscarCursoPorId(cursoId);
+                if (curso == null)
+                    return NotFound($"Curso com Id:{cursoId} não encontrado.");
+
                 return Ok(curso);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar buscar curso por Id: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("buscar curso por Id", ex);
             }
         }
 
         [HttpDelete("ExcluirCurso/{cursoId}")]
         public async Task<IActionResult> ExcluirCurso(int cursoId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
-                return Ok(await _cursoService.ExcluirCurso(cursoId));
+                var excluiu = await _cursoService.ExcluirCurso(cursoId);
+                return Ok(excluiu);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar excluir curso: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("excluir curso", ex);
             }
         }
 
         [HttpGet("BuscarTodosCursos")]
-        public async Task<IActionResult> BuscarTodosCursos()
+        public async Task<ActionResult<IEnumerable<CursoModel>>> BuscarTodosCursos()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var listaCursos = await _cursoService.BuscarTodosCursos();
@@ -112,20 +93,13 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar listar todos os cursos: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("listar todos os cursos", ex);
             }
         }
 
         [HttpGet("BuscarTodosCursosComAvaliacoes")]
-        public async Task<IActionResult> BuscarTodosCursosComAvaliacoes()
+        public async Task<ActionResult<IEnumerable<CursoModel>>> BuscarTodosCursosComAvaliacoes()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var listaCursos = await _cursoService.BuscarTodosCursosComAvaliacoes();
@@ -133,11 +107,7 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar listar todos os cursos juntos com suas avaliações: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("listar todos os cursos com suas avaliações", ex);
             }
         }
     }
