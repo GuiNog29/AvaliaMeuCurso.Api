@@ -5,15 +5,15 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Api", "AvaliaMeuCurso.Api\AvaliaMeuCurso.Api.csproj", "{6F15D123-3DD8-4535-8420-9A4CEFD253D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Application", "AvaliaMeuCurso.Configurations\AvaliaMeuCurso.Application.csproj", "{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Presentation", "AvaliaMeuCurso.Presentation\AvaliaMeuCurso.Presentation.csproj", "{EFF301C6-267B-4C2E-B380-0502CFE7FD72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Domain", "AvaliaMeuCurso.Models\AvaliaMeuCurso.Domain.csproj", "{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Infrastructure", "AvaliaMeuCurso.Infrastructure\AvaliaMeuCurso.Infrastructure.csproj", "{88C03470-B732-4DD2-BA8E-922C54D4223D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Infrastructure", "AvaliaMeuCurso.Repositories\AvaliaMeuCurso.Infrastructure.csproj", "{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Application", "AvaliaMeuCurso.Application\AvaliaMeuCurso.Application.csproj", "{E0545833-A362-4370-955B-DA11D9BEA024}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Presentation", "AvaliaMeuCurso.Services\AvaliaMeuCurso.Presentation.csproj", "{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Domain", "AvaliaMeuCurso.Domain\AvaliaMeuCurso.Domain.csproj", "{D1EEAF28-98F9-4A99-985F-4C97865945A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaliaMeuCurso.Tests", "AvaliaMeuCurso.Tests\AvaliaMeuCurso.Tests.csproj", "{C08DEED0-266B-4082-850E-388E9680A80A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaliaMeuCurso.Tests", "AvaliaMeuCurso.Tests\AvaliaMeuCurso.Tests.csproj", "{B4A3A172-CA1A-4F07-AD79-F6A3ECE8E6C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,26 +25,26 @@ Global
 		{6F15D123-3DD8-4535-8420-9A4CEFD253D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F15D123-3DD8-4535-8420-9A4CEFD253D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F15D123-3DD8-4535-8420-9A4CEFD253D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A0A1E7A-28B4-4B29-A42D-A43980C9D5D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A231F52-29D8-4E01-9A1A-6E687CA15FD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3A8CD4E-5AA1-4589-AECA-47031F637EA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9ED0FBC-6904-4DCA-9ABB-F1DF54B3F4CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C08DEED0-266B-4082-850E-388E9680A80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C08DEED0-266B-4082-850E-388E9680A80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C08DEED0-266B-4082-850E-388E9680A80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C08DEED0-266B-4082-850E-388E9680A80A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF301C6-267B-4C2E-B380-0502CFE7FD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF301C6-267B-4C2E-B380-0502CFE7FD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF301C6-267B-4C2E-B380-0502CFE7FD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF301C6-267B-4C2E-B380-0502CFE7FD72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88C03470-B732-4DD2-BA8E-922C54D4223D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C03470-B732-4DD2-BA8E-922C54D4223D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C03470-B732-4DD2-BA8E-922C54D4223D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88C03470-B732-4DD2-BA8E-922C54D4223D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0545833-A362-4370-955B-DA11D9BEA024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0545833-A362-4370-955B-DA11D9BEA024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0545833-A362-4370-955B-DA11D9BEA024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0545833-A362-4370-955B-DA11D9BEA024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1EEAF28-98F9-4A99-985F-4C97865945A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1EEAF28-98F9-4A99-985F-4C97865945A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1EEAF28-98F9-4A99-985F-4C97865945A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1EEAF28-98F9-4A99-985F-4C97865945A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A3A172-CA1A-4F07-AD79-F6A3ECE8E6C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A3A172-CA1A-4F07-AD79-F6A3ECE8E6C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A3A172-CA1A-4F07-AD79-F6A3ECE8E6C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A3A172-CA1A-4F07-AD79-F6A3ECE8E6C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
