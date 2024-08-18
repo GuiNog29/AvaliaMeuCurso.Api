@@ -18,8 +18,13 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             _validadorErro = validadorErro;
         }
 
+        /// <summary>
+        /// Método responsável por criar um novo curso
+        /// </summary>
+        /// <param name="cursoModel"></param>
+        /// <returns></returns>
         [HttpPost("CriarNovoCurso")]
-        public async Task<ActionResult<CursoModel>> CriarNovoCurso(CursoModel cursoModel)
+        public async Task<ActionResult<CursoModel>> CriarNovoCurso([FromBody] CursoModel cursoModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -35,8 +40,14 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por atualizar um curso
+        /// </summary>
+        /// <param name="cursoModel"></param>
+        /// <param name="cursoId"></param>
+        /// <returns></returns>
         [HttpPut("AtualizarCurso/{cursoId}")]
-        public async Task<IActionResult> AtualizarCurso(CursoAtualizacaoModel cursoModel, int cursoId)
+        public async Task<IActionResult> AtualizarCurso([FromBody] CursoAtualizacaoModel cursoModel, int cursoId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -52,6 +63,11 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar um curso a partir do seu Id
+        /// </summary>
+        /// <param name="cursoId"></param>
+        /// <returns></returns>
         [HttpGet("BuscarCursoPorId/{cursoId}")]
         public async Task<ActionResult<CursoModel>> BuscarCursoPorId(int cursoId)
         {
@@ -69,6 +85,11 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por excluir um curso a partir do seu Id
+        /// </summary>
+        /// <param name="cursoId"></param>
+        /// <returns></returns>
         [HttpDelete("ExcluirCurso/{cursoId}")]
         public async Task<IActionResult> ExcluirCurso(int cursoId)
         {
@@ -83,6 +104,10 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar todos os cursos cadastrados
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("BuscarTodosCursos")]
         public async Task<ActionResult<IEnumerable<CursoModel>>> BuscarTodosCursos()
         {
@@ -97,6 +122,10 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar os cursos juntamente com as avaliações feitas pelos alunos
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("BuscarTodosCursosComAvaliacoes")]
         public async Task<ActionResult<IEnumerable<CursoModel>>> BuscarTodosCursosComAvaliacoes()
         {

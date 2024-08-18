@@ -18,8 +18,13 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             _validadorErro = validadorErro;
         }
 
+        /// <summary>
+        /// Método responsável por cadastrar um novo estudante
+        /// </summary>
+        /// <param name="estudanteModel"></param>
+        /// <returns></returns>
         [HttpPost("CriarNovoEstudante")]
-        public async Task<ActionResult<EstudanteModel>> CriarNovoEstudante(EstudanteModel estudanteModel)
+        public async Task<ActionResult<EstudanteModel>> CriarNovoEstudante([FromBody] EstudanteModel estudanteModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -35,8 +40,14 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por atualizar um estudante
+        /// </summary>
+        /// <param name="estudanteModel"></param>
+        /// <param name="estudanteId"></param>
+        /// <returns></returns>
         [HttpPut("AtualizarEstudante/{estudanteId}")]
-        public async Task<IActionResult> AtualizarEstudante(EstudanteAtualizacaoModel estudanteModel, int estudanteId)
+        public async Task<IActionResult> AtualizarEstudante([FromBody] EstudanteAtualizacaoModel estudanteModel, int estudanteId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -52,6 +63,11 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar um estudante a partir do seu Id
+        /// </summary>
+        /// <param name="estudanteId"></param>
+        /// <returns></returns>
         [HttpGet("BuscarEstudantePorId/{estudanteId}")]
         public async Task<ActionResult<EstudanteModel>> BuscarEstudantePorId(int estudanteId)
         {
@@ -66,6 +82,11 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por excluir um estudante a partir do seu Id
+        /// </summary>
+        /// <param name="estudanteId"></param>
+        /// <returns></returns>
         [HttpDelete("ExcluirEstudante/{estudanteId}")]
         public async Task<IActionResult> ExcluirEstudante(int estudanteId)
         {
@@ -83,6 +104,10 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar todos os estudantes cadastrados
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("BuscarTodosEstudantes")]
         public async Task<ActionResult<IEnumerable<EstudanteModel>>> BuscarTodosEstudantes()
         {

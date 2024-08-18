@@ -18,8 +18,13 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             _validadorErro = validadorErro;
         }
 
+        /// <summary>
+        /// Método responsável por criar uma nova alvaliação
+        /// </summary>
+        /// <param name="avaliacaoModel"></param>
+        /// <returns></returns>
         [HttpPost("CriarNovaAvaliacao")]
-        public async Task<ActionResult<AvaliacaoModel>> CriarNovaAvaliacao(AvaliacaoModel avaliacaoModel)
+        public async Task<ActionResult<AvaliacaoModel>> CriarNovaAvaliacao([FromBody] AvaliacaoModel avaliacaoModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -35,8 +40,14 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por atualizar avaliação
+        /// </summary>
+        /// <param name="avaliacaoModel"></param>
+        /// <param name="avaliacaoId"></param>
+        /// <returns></returns>
         [HttpPut("AtualizarAvaliacao/{avaliacaoId}")]
-        public async Task<IActionResult> AtualizarAvaliacao(AvaliacaoAtualizacaoModel avaliacaoModel, int avaliacaoId)
+        public async Task<IActionResult> AtualizarAvaliacao([FromBody] AvaliacaoAtualizacaoModel avaliacaoModel, int avaliacaoId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -52,6 +63,11 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar uma avaliação a partir do seu Id
+        /// </summary>
+        /// <param name="avaliacaoId"></param>
+        /// <returns></returns>
         [HttpGet("BuscarAvaliacaoPorId/{avaliacaoId}")]
         public async Task<ActionResult<AvaliacaoModel>> BuscarAvaliacaoPorId(int avaliacaoId)
         {
@@ -66,6 +82,11 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por escluir avaliação a partir do seu Id
+        /// </summary>
+        /// <param name="avaliacaoId"></param>
+        /// <returns></returns>
         [HttpDelete("ExcluirAvaliacao/{avaliacaoId}")]
         public async Task<IActionResult> ExcluirAvaliacao(int avaliacaoId)
         {
@@ -80,6 +101,10 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Método responsável por buscar todas as avaliações cadastradas
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("BuscarTodasAvaliacoes")]
         public async Task<ActionResult<IEnumerable<AvaliacaoModel>>> BuscarTodasAvaliacoes()
         {
