@@ -22,7 +22,10 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<Avaliacao> CriarNovaAvaliacao(Avaliacao avaliacao)
         {
-            string sql = @"INSERT INTO Avaliacoes (Estrelas, Comentario, DataHora, CursoId, EstudanteId) VALUES (@Estrelas, @Comentario, @DataHora, @CursoId, @EstudanteId); SELECT LAST_INSERT_ID();";
+            const string sql = @"INSERT INTO Avaliacoes (Estrelas, Comentario, DataHora, CursoId, EstudanteId) 
+                                 VALUES (@Estrelas, @Comentario, @DataHora, @CursoId, @EstudanteId); 
+                                 SELECT LAST_INSERT_ID();";
+
             using var db = CriarConexaoBancoDeDados;
             var novoIdAvaliacao = await db.ExecuteScalarAsync<int>(sql, avaliacao);
             avaliacao.Id = novoIdAvaliacao;
@@ -31,23 +34,37 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<bool> AtualizarAvaliacao(Avaliacao avaliacao, int avaliacaoId)
         {
-            avaliacao.Id = avaliacaoId;
-            string sql = @"UPDATE Avaliacoes SET Estrelas = @Estrelas, Comentario = @Comentario, DataHora = @DataHora, CursoId = @CursoId, EstudanteId = @EstudanteId WHERE Id = @Id";
+            const string sql = @"UPDATE Avaliacoes 
+                                 SET Estrelas = @Estrelas, Comentario = @Comentario, DataHora = @DataHora, 
+                                     CursoId = @CursoId, EstudanteId = @EstudanteId 
+                                 WHERE Id = @Id";
+
             using var db = CriarConexaoBancoDeDados;
-            var avaliacaoFoiAtualizada = await db.ExecuteAsync(sql, avaliacao);
+            var avaliacaoFoiAtualizada = await db.ExecuteAsync(sql, new
+            {
+                avaliacao.Estrelas,
+                avaliacao.Comentario,
+                avaliacao.DataHora,
+                avaliacao.CursoId,
+                avaliacao.EstudanteId,
+                Id = avaliacaoId
+            });
+
             return avaliacaoFoiAtualizada > 0;
         }
 
         public async Task<Avaliacao> BuscarAvaliacaoPorId(int avaliacaoId)
         {
-            string sql = @"SELECT * FROM Avaliacoes A WHERE A.Id = @Id";
+            const string sql = @"SELECT * FROM Avaliacoes WHERE Id = @Id";
+
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryFirstOrDefaultAsync<Avaliacao>(sql, new { Id = avaliacaoId });
         }
 
         public async Task<bool> ExcluirAvaliacao(int avaliacaoId)
         {
-            string sql = @"DELETE FROM Avaliacoes WHERE Id = @Id";
+            const string sql = @"DELETE FROM Avaliacoes WHERE Id = @Id";
+
             using var db = CriarConexaoBancoDeDados;
             var avaliacaoFoiExcluida = await db.ExecuteAsync(sql, new { Id = avaliacaoId });
             return avaliacaoFoiExcluida > 0;
@@ -55,7 +72,8 @@ namespace AvaliaMeuCurso.Infrastructure.Repositories
 
         public async Task<IEnumerable<Avaliacao>> BuscarTodasAvaliacoes()
         {
-            string sql = @"SELECT * FROM Avaliacoes A ORDER BY A.Id DESC";
+            const string sql = @"SELECT * FROM Avaliacoes ORDER BY Id DESC";
+
             using var db = CriarConexaoBancoDeDados;
             return await db.QueryAsync<Avaliacao>(sql);
         }
