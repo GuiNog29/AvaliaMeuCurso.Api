@@ -22,7 +22,7 @@ namespace AvaliaMeuCurso.Application.Mappings
             CreateMap<Avaliacao, AvaliacaoDetalhesModel>()
                 .ForMember(x => x.NomeEstudante, opt => opt.MapFrom(src => src.Estudante.Nome))
                 .ForMember(x => x.EstudanteId, opt => opt.MapFrom(src => src.Estudante.Id))
-                .ForMember(dest => dest.CursoId, opt => opt.MapFrom(src => src.CursoId)) 
+                .ForMember(x => x.CursoId, opt => opt.MapFrom(src => src.Curso.Id)) 
                 .ForMember(x => x.DataHora, opt => opt.MapFrom(src => src.DataHora.ToString("dd/MM/yyyy HH:mm")));
             CreateMap<Avaliacao, AvaliacaoAtualizacaoModel>().ReverseMap();
         }

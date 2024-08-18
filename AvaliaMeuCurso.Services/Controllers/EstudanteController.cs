@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AvaliaMeuCurso.Application.Models.Error;
+using AvaliaMeuCurso.Application.Helpers;
 using AvaliaMeuCurso.Application.Models.Estudante;
 using AvaliaMeuCurso.Application.Interfaces.Service;
 
@@ -10,14 +10,16 @@ namespace AvaliaMeuCurso.Presentation.Controllers
     public class EstudanteController : ControllerBase
     {
         private readonly IEstudanteService _estudanteService;
+        private readonly IValidadorErro _validadorErro;
 
-        public EstudanteController(IEstudanteService estudanteService)
+        public EstudanteController(IEstudanteService estudanteService, IValidadorErro validadorErro)
         {
             _estudanteService = estudanteService;
+            _validadorErro = validadorErro;
         }
 
         [HttpPost("CriarNovoEstudante")]
-        public async Task<IActionResult> CriarNovoEstudante(EstudanteModel estudanteModel)
+        public async Task<ActionResult<EstudanteModel>> CriarNovoEstudante(EstudanteModel estudanteModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -29,11 +31,7 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar cadastrar estudante: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("cadastrar estudante", ex);
             }
         }
 
@@ -50,20 +48,13 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar atualizar estudante: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("atualizar estudante", ex);
             }
         }
 
         [HttpGet("BuscarEstudantePorId/{estudanteId}")]
-        public async Task<IActionResult> BuscarEstudantePorId(int estudanteId)
+        public async Task<ActionResult<EstudanteModel>> BuscarEstudantePorId(int estudanteId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var estudante = await _estudanteService.BuscarEstudantePorId(estudanteId);
@@ -71,40 +62,30 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar buscar estudante por Id: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("buscar estudante por Id", ex);
             }
         }
 
         [HttpDelete("ExcluirEstudante/{estudanteId}")]
         public async Task<IActionResult> ExcluirEstudante(int estudanteId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
-                return Ok(await _estudanteService.ExcluirEstudante(estudanteId));
+                var excluiu = await _estudanteService.ExcluirEstudante(estudanteId);
+                if (!excluiu)
+                    return NotFound($"Estudante com Id:{estudanteId} não encontrado.");
+
+                return Ok(excluiu);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar excluir estudante: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("excluir estudante", ex);
             }
         }
 
         [HttpGet("BuscarTodosEstudantes")]
-        public async Task<IActionResult> BuscarTodosEstudantes()
+        public async Task<ActionResult<IEnumerable<EstudanteModel>>> BuscarTodosEstudantes()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
                 var listaEstudantes = await _estudanteService.BuscarTodosEstudantes();
@@ -112,11 +93,7 @@ namespace AvaliaMeuCurso.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErroModel
-                {
-                    Mensagem = $"Ocorreu um erro ao tentar listar todos os estudantes: erro {ex.Message}",
-                    Detalhes = ex.StackTrace
-                });
+                return _validadorErro.TratarErro("listar todos os estudantes", ex);
             }
         }
     }

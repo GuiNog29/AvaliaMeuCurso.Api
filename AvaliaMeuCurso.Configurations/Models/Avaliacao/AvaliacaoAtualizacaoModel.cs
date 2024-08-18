@@ -1,5 +1,5 @@
-﻿using AvaliaMeuCurso.Application.Interfaces.Dados;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using AvaliaMeuCurso.Application.Interfaces.Dados;
 
 namespace AvaliaMeuCurso.Application.Models.Avaliacao
 {
@@ -7,6 +7,7 @@ namespace AvaliaMeuCurso.Application.Models.Avaliacao
     {
         public int Estrelas { get; set; }
         public string? Comentario { get; set; }
+        [SwaggerSchema(ReadOnly = true)]
         public DateTime DataHora { get; set; }
         [SwaggerSchema(ReadOnly = true)]
         public int CursoId { get; set; }
