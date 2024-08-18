@@ -3,6 +3,7 @@ using AvaliaMeuCurso.Application.Service;
 using AvaliaMeuCurso.Application.Mappings;
 using AvaliaMeuCurso.Infrastructure.Repositories;
 using AvaliaMeuCurso.Application.Interfaces.Service;
+using AvaliaMeuCurso.Application.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,9 @@ builder.Services.AddScoped<IEstudanteRepository, EstudanteRepository>();
 builder.Services.AddScoped<IAvaliacaoService, AvaliacaoService>();
 builder.Services.AddScoped<ICursoService, CursoService>();
 builder.Services.AddScoped<IEstudanteService, EstudanteService>();
+
+// Registrar helper
+builder.Services.AddScoped<IValidadorErro, ValidadorErro>();
 
 // Configurar AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
