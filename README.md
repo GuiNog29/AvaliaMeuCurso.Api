@@ -59,7 +59,7 @@ Para executar o projeto:
 4. Ir no arquivo **appsettings.json** e mudar a senha que foi configurada no seu banco local, e caso necessário atualizar o usuário
 5. Execute o projeto utilizando o perfil **AvaliaMeuCurso**.
 
-## Sugestões de implementações que eu solicitaria para o PO (Versões Futuras)
+## Sugestões de implementações (Versões Futuras)
 
 ### 1. Implementação de Testes Unitários
    - **Descrição:** Adicionar testes unitários para todas as principais funcionalidades do sistema, garantindo que cada componente funcione conforme o esperado.
